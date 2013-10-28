@@ -67,11 +67,15 @@ define rsyslog::filter (
   file {"${name}.conf":
     path    => "/etc/rsyslog.d/${name}.conf",
     ensure  => present,
+    owner   => 'root',
+    group   => 'root',
     mode    => 0640,
-    require => Package['rsyslog'],
     content => $mycontent,
+    #require => Package['rsyslog'],
+    require => Class["rsyslog::install"],
     # rsyslog require a restart to load the config file when configuration has changed.
-    notify  => Service['rsyslog'],
+    #notify  => Service['rsyslog'],
+    notify  => Class["rsyslog::service"],
   }
 
 }
