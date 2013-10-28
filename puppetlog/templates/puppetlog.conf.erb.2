@@ -1,0 +1,7 @@
+if $programname contains 'puppet-agent' then /tmp/puppet-agent.log
+
+<% myprograms.each do |myprogram| -%> 
+server <%= server %>
+if $programname contains <%= myprogram %> then /tmp/<%= server %>.log
+<% end -%> 
+

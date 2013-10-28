@@ -1,0 +1,69 @@
+# Definition: rsyslog
+#
+# This class redirects syslog for a program to designated location.
+#
+# Parameters:
+# - The $progname is the program name that you want to redirect syslog
+# - The $loc is location that program syslog is redirected to
+#
+# Actions:
+# - Redirect syslog for a program to designated location
+#
+# Requires:
+# - rsyslog 
+#
+# Sample Usage:
+#
+# rsyslog {'puppet-agent':}
+#
+# rsyslog {'mytest':
+#   progname => 'dhclient',
+#   location => '/tmp/mytest.log',
+# }
+
+
+class myclass {
+  package {'rsyslog':
+    ensure => installed,
+  }
+}
+
+
+# NEED FIND A WAY TO DO THIS IN DEFINITION.  
+#  service { 'rsyslog': 
+#    ensure    => running,
+#    enable    => true,
+#    subscribe => File["${name}.conf"],
+#  }   
+
+define rsyslog (
+  $progname = undef,
+  $location = undef,
+)
+{
+
+  if $progname == undef {
+    $program = $name
+  } else {
+    $program = $progname
+  }
+  if $location == undef {
+    $loc = "/var/log/${name}"
+    # $loc = "/tmp/${name}"
+  } else {  # maybe if not leading '/' add an assumed '/var/log/' prefix
+    $loc = $location
+  }
+
+  file {"${name}.conf":
+    path    => "/etc/rsyslog.d/${name}.conf",
+    ensure  => present,
+    mode    => 0640,
+    #require => Package['rsyslog'],
+    content => "if \$programname contains '${program}' then ${loc}\n",
+  }
+
+}
+  # rsyslog require a restart to load the config file when configuration has changed.
+  Class['myclass'] -> Rsyslog["$name"] 
+
+
