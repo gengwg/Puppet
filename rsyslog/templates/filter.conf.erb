@@ -1,0 +1,23 @@
+<%- if @remote_server -%>
+  <%- if @protocol == "udp" -%>
+    <%- if @port -%>
+*.*   @<%= @remote_server %>:<%= @port %>
+    <% else %>
+*.*   @<%= @remote_server -%>
+    <%- end -%>
+  <%- end -%>
+  <%- if @protocol == "tcp" -%>
+    <%- if @port -%>
+*.*   @@<%= @remote_server %>:<%= @port %>
+    <% else %>
+*.*   @@<%= @remote_server -%>
+    <%- end -%>
+  <%- end -%>
+<%- end -%>
+
+if $programname contains '<%= @program -%>' \
+<%- if @error -%>
+and $msg contains 'error' \
+<%- end -%>
+then <%= @loc %>
+

@@ -1,0 +1,19 @@
+<%= @loc %> {
+    # don't use time based rotation, but size-based
+    # size 1
+    
+    # rotate daily
+    daily
+    # don't move, but copy-and-truncate so the application won't have to be
+    # told that the file has moved.
+    # copytruncate
+    # maximum of one old file
+    rotate 4
+    # counting old files starts at 1 rather than 0
+    start 1
+    postrotate
+       /usr/bin/killall -HUP syslogd
+    endscript
+    # use compression
+    #compress
+}
