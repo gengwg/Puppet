@@ -1,4 +1,0 @@
-module: puppetlabs/concat
-version: 1.0.0
-url: file:///var/lib/puppet/puppet-module/cache/http_forge_puppetlabs_com-75a31f1d6f1ef6eb63b4479b3512ee1508209a7f/puppetlabs-concat-1.0.0.tar.gz
-installed: Thu Oct 24 11:34:18 -0600 2013
